@@ -1,6 +1,42 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /blog
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+      
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
     username: cos
     password: cos1234
+    
+  jpa:
+    open-in-view: true
+    ## sql문 노출시 이쁘게 노출
+    hibernate:
+      ddl-auto: create
+      # JPA 관련 => 나중에는 UPDATE로 변경해야함
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        #entity를 만들때(table) database에 변수명 그대로 넣는다는 전략
+        # 만일 SpringPhysicalNamingStrategy 전략을 사용한다면 카멜 표기법 myEmail 와 같은 변수명을 my_mail 와 같이 변경하여 넣어준다.
+      use-new-id-generator-mappings: false
+      # JPA가 사용하는 ID 넘버링 전략을 사용하지 않는다는 옵션
+    show-sql: true
+    ## sql문 노출 여부
+    properties:
+      hibernate.format_sql: true
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+      
