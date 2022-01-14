@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder // 빌더 패턴
+//@DynamicInsert // insert할때 null 값은 defualt 들어가게 해줌
 public class User {
 	@Id //기본키 설정
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 넘버링 전략 : 프로젝트에서 연결된 DB의 넘버링 전략을 따른다는 말
@@ -35,8 +38,10 @@ public class User {
 	@Column(nullable = false, length = 50)
 	private String email;
 	
-	@ColumnDefault("'user'") // 안에 따옴표를 2중으로 해줘야함
-	private String role; // Enum을 사용하는게 좋다. //admin/user/manager
+	//@ColumnDefault("'user'") // 안에 따옴표를 2중으로 해줘야함
+	//db에는 roletype이라는게 없기때문에 따로 지정해줘야한다.
+	@Enumerated(EnumType.STRING)
+	private RoleType role; // Enum을 사용하는게 좋다. //admin/user/manager
 	
 	@CreationTimestamp // 시간이 자동 입력
 	private Timestamp createDate;
