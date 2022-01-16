@@ -32,7 +32,7 @@ public class DummyController {
 	 * json 형태의 데이터를 받을때는 requestbody 어노테이션을 붙인다.
 	 * @param id
 	 * @param requestUser
-	 * @return
+	 * @return 
 	 */
 	@Transactional //repository save 없이 update 가능// 해당 매서드가 호출될때 시작햇다 종료될때 자동으로 commit 수행
 	@PostMapping("/dummy/user/{id}")
