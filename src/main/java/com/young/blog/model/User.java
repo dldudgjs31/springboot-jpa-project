@@ -29,7 +29,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 넘버링 전략 : 프로젝트에서 연결된 DB의 넘버링 전략을 따른다는 말
 	private int id;// 오라클 시퀀스/ auto_increment
 	
-	@Column(nullable = false,length=20) // null 허용x / 20자 내외
+	@Column(nullable = false,length=20,unique = true) // null 허용x / 20자 내외 / 중복불가(unique=true)
 	private String username;
 	
 	@Column(nullable = false,length=100) //null 허용 x  / 100자 내외 : 이유 => 비밀번호 암호화 보관할거라서
