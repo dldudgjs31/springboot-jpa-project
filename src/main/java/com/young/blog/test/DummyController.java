@@ -6,10 +6,12 @@ import java.util.function.Supplier;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,10 +28,28 @@ public class DummyController {
 	
 	@Autowired // 위에 컨트롤러가 컴포넌트 스캔될시 등록된다. // 의존성 주입(DI)
 	private UserRepository userRepository;
+	/**
+	 * 회원정보 삭제하기.
+	 * deleteById 메서드 사용
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping("/dummy/user/{id}")
+	public String delete(@PathVariable int id) {
+		try {
+			userRepository.deleteById(id); // 삭제시에 오류시 문제 될수 있음 없는 자료 삭제시 처리해야함
+		} catch (EmptyResultDataAccessException e) { // 없는 자료 삭제시 해당 에러 발생하기 때문에 해당 예외처리 필요
+			return "삭제에 실패하였습니다. 해당 id는 db에 없음";
+		}
+		
+		return "삭제에 성공하였습니다.";
+	}
+	
 	
 	
 	/** 회원정보 업데이트
 	 * json 형태의 데이터를 받을때는 requestbody 어노테이션을 붙인다.
+	 * findById로 불러온후 set으로 객체 내용 변경
 	 * @param id
 	 * @param requestUser
 	 * @return 
@@ -50,12 +70,13 @@ public class DummyController {
 		/* 함수내 생성된 레포지토리(영속성 컨텍스트)에서 변화를 감지하여 db에 update를 해주는 걸 의미함
 		 * 
 		 */
-		return null;
+		return user;
 	}
 	
 	
 	/**
 	 * 전체 리스트 출력
+	 * findAll로 모든 레포 정보 출력
 	 * @return
 	 */
 	@GetMapping("/dummy/users")
@@ -66,6 +87,7 @@ public class DummyController {
 	
 	/**
 	 * 한페이지당 2건의 데이터를 리턴 받기
+	 * page를 활용하여 findAll(pageable) 로 제한된 정보 요청하기
 	 * @param id
 	 * @return
 	 */
@@ -78,7 +100,12 @@ public class DummyController {
 		return users;
 	}
 	
-	
+	/**
+	 * 회원 등록하기
+	 * save() 를 활용하여 회원정도 저장하기.
+	 * @param user
+	 * @return
+	 */
 	@PostMapping("/dummy/join")
 	public String join(User user) {
 		user.setRole(RoleType.USER); //enum으로 저장한 유저 roletype을 기입해준다.
@@ -86,7 +113,13 @@ public class DummyController {
 		
 		return "회원가입이 완료되었습니다";
 	}
-	
+	/**
+	 * 유저 정보 요청 
+	 * 없을시에 에러 노출 (illegalArgumentException)
+	 * .findById(id).orElseThrow를 이용하여 예외시에 리턴값 설정
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/dummy/user/{id}")
 	public User detail(@PathVariable int id) {
 		/*
