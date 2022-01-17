@@ -15,5 +15,5 @@
 	</form>
 		<button class="btn btn-primary" id="btn-save">회원가입 완료</button>
 </div>
-<script src="/blog/js/user/user.js"></script>
+<script src="${pageContext.request.contextPath}/js/user/user.js"></script>
 <%@ include file="../layout/footer.jsp"%>

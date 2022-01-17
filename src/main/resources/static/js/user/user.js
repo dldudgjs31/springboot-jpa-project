@@ -3,9 +3,16 @@ let index = {
 		$("#btn-save").on("click",()=>{ //this를 바인딩하기 위해서 ()=> 를 사용, function을 사용하면 this가 window객체를 가리키게됨
 			this.save(); 
 		});
+
 	},
 	
 	save: function(){
+		// 컨텍스트패스 받아오기.
+		function getContextPath() {
+			var hostIndex = location.href.indexOf( location.host ) + location.host.length;
+			return location.href.substring( hostIndex, location.href.indexOf("/", hostIndex + 1) );
+		  };
+
 		//alert('user의 save 함수 호출');
 		let data={
 			username: $('#username').val(),
@@ -19,14 +26,14 @@ let index = {
 		$.ajax({
 			//회원가입 수행 요청
 			type:"POST", //요청 method 타입
-			url:"/blog/api/user", //요청보낼 url
+			url: getContextPath()+"/auth/joinProc", //요청보낼 url
 			data: JSON.stringify(data), //보내는 data => json으로 넘기기
 			contentType:"application/json;charset=utf-8", //마임타입 지정
 			dataType:"json" // 응답 데이터 타입 지정 ( default는 버퍼로 전송되기때문에 string을 전송됨), 만일 json이 넘어오면 자바스크립트 object로 변경해준다.
 		}).done(function(resp){
 			alert("회원가입 완료");
-			location.href="/blog"; // 성공시 반환 위치
-		}).fail(function(){
+			location.href=getContextPath(); // 성공시 반환 위치
+		}).fail(function(error){
 			alert(JSON.stringify(error));
 		
 		}); 
