@@ -40,7 +40,6 @@ public class Board {
 	@Lob//대용량 데이터 사용시 사용하는 애노테이션
 	private String content; // 섬머노트 라이브러리 사용할 예정 <html>태그가 섞여서 디자인되기 때문에 사이즈가 크다
 	
-	@ColumnDefault("0")
 	private int count;
 	
 	@ManyToOne //board To User 라는 뜻 한명의 유저는 여러개의 게시글을 작성할 수 있다는 의미 //ONE TO ONE 은 하나만 작성 가능

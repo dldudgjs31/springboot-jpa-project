@@ -11,7 +11,22 @@ import com.young.blog.model.User;
 //UserDetails 타입의 오브젝트를 스프링 스큐리티의 고유한 세션 저장소에 저장해준다.
 public class PrincipalDetail implements UserDetails{
 	private User user;
-
+	/**
+	 * 생성자와 getter setter 생성
+	 * @param user
+	 */
+	public PrincipalDetail(User user) {
+		this.user=user;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
 	/**
 	 * 계정의 권한 리턴
 	 */
@@ -27,7 +42,6 @@ public class PrincipalDetail implements UserDetails{
 		});
 		return collectors;
 	}
-
 
 	@Override
 	public String getPassword() {

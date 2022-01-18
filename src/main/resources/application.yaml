@@ -12,6 +12,7 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
+    hiddenmethod:      filter:        enabled: true
       
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,7 +24,7 @@ spring:
     open-in-view: true
     ## sql문 노출시 이쁘게 노출
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       # JPA 관련 => 나중에는 UPDATE로 변경해야함
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

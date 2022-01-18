@@ -14,6 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 </head>
 <body>
 
@@ -35,8 +37,8 @@
 				<c:otherwise>
 					<ul class="navbar-nav">
 						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}">메인 페이지</a></li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user/form">회원정보</a></li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/board/form">글쓰기</a></li>
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/user/updateForm">회원정보</a></li>
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/board/saveForm">글쓰기</a></li>
 						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
 					</ul>
 		

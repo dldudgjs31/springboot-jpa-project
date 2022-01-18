@@ -1,5 +1,7 @@
 package com.young.blog.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -9,6 +11,9 @@ import com.young.blog.model.User;
 //DAO 의 역할
 //Spring 빈등록 된다. 따라서 @Repository 생략 가능하다.
 public interface UserRepository extends JpaRepository<User, Integer> {
+	
+	//select * from user where username=?1;
+	Optional<User> findByUsername(String username);
 	
 	//JPA 네이밍 전략
 	// SELECT * FROM user WHERE username=?1 AND password=?2; 이런 쿼리가 내부적으로 동작함
