@@ -1,17 +1,23 @@
 package com.young.blog.controller;
 
 
+import java.io.IOException;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,7 +43,7 @@ public class KakaoController {
 		// body 값
 		params.add("grant_type", "authorization_code");
 		params.add("client_id", "1bba6aafcad7c5f83d3e74b925ceb08a");
-		params.add("redirect_uri", "http://localhost:8000/blog/auth/kakao/callback");
+		params.add("redirect_uri", "http://127.0.0.1:8000/blog/auth/kakao/callback");
 		params.add("code",code);
 		
 		//바디와 헤더 정보를 가진 엔터티 생성
@@ -66,16 +72,18 @@ public class KakaoController {
 		}
 		//
 		System.out.println(oauthToken.getAccess_token());
+		String key=oauthToken.getAccess_token();
+		
+		
 		
 		RestTemplate rt2 =new RestTemplate();
+
 		//header 값
 		HttpHeaders headers2 =new HttpHeaders();
-		headers.add("Authorization", "Bearer "+oauthToken.getAccess_token());
+		headers.add("Authorization", "Bearer " + key);
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		//해더값 하나의 오브젝트에 담기
-		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest2 =
-				new HttpEntity<>(headers2);
-		
+		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest2 = new HttpEntity<>(headers2);
 		//응답받을 엔터디 생성후 요청하고 값받기
 		ResponseEntity<String> response2 = rt2.exchange(
 				"https://kapi.kakao.com/v2/user/me",
