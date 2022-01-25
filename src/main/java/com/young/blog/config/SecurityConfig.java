@@ -3,6 +3,7 @@ package com.young.blog.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +21,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private PrincipalDetailService PrincipalDetailService;
 	
+	
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
+
 	/**
 	 * password 암호화 처리
 	 * @return
@@ -46,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 			.csrf().disable() // csrf 토큰 비활성화(테스트시 걸어두는게 좋음)
 			.authorizeRequests()
-				.antMatchers("/auth/**","/js/**","/css/**","/","/dummy/**") // /auth/ 이하 접근 허용
+				.antMatchers("/auth/**","/js/**","/css/**","/","/dummy/**","/image/**") // /auth/ 이하 접근 허용
 				.permitAll()
 				.anyRequest()
 				.authenticated()

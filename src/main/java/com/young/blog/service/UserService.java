@@ -5,6 +5,10 @@ import javax.persistence.Persistence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.EncodedResource;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +23,8 @@ public class UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private BCryptPasswordEncoder encode;
+	
+
 	//회원가입 전체의 서비스가 하나의 트랜잭션으로 묶이게됨.
 	@Transactional
 	public int join(User user) {
@@ -58,5 +64,7 @@ public class UserService {
 		persistance.setPassword(encPassword);
 		persistance.setEmail(user.getEmail());
 		//회원수정 함수 종료시 서비스 종료 => 트랜잭션 종료 and commit
+		
+
 	}
 }

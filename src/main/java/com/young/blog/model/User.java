@@ -32,7 +32,7 @@ public class User {
 	@Column(nullable = false,length=20,unique = true) // null 허용x / 20자 내외 / 중복불가(unique=true)
 	private String username;
 	
-	@Column(nullable = false,length=200) //null 허용 x  / 100자 내외 : 이유 => 비밀번호 암호화 보관할거라서
+	@Column(length=200) //null 허용 x  / 100자 내외 : 이유 => 비밀번호 암호화 보관할거라서
 	private String password;
 	
 	@Column(nullable = false, length = 50)
