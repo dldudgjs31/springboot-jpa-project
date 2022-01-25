@@ -1,7 +1,10 @@
 package com.young.blog.service;
 
 
+import javax.persistence.Persistence;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.EncodedResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,4 +46,17 @@ public class UserService {
 		return userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword());
 	}*/
 	
+	@Transactional
+	public void update(User user) {
+		//수정시에는 영속성 컨텍스트라는 곳에 user 오브젝트를 영속화하고 user 오브젝트를 수정
+		// select해서 user오브젝트를 db로부터 가져와 영속화하기
+		User persistance= userRepository.findById(user.getId()).orElseThrow(()->{
+			return new IllegalArgumentException("회원 찾기 실패");
+		});
+		String rawPassword=user.getPassword();
+		String encPassword= encode.encode(rawPassword);
+		persistance.setPassword(encPassword);
+		persistance.setEmail(user.getEmail());
+		//회원수정 함수 종료시 서비스 종료 => 트랜잭션 종료 and commit
+	}
 }
