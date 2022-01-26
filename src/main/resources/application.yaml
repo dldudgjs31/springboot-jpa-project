@@ -41,3 +41,5 @@ spring:
     serialization:
       fail-on-empty-beans: false
       
+cos:
+  key: cos1234

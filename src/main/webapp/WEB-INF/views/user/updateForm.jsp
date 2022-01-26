@@ -10,9 +10,11 @@
 		<div class="form-group">
 			<label for="email">email:</label> <input type="email" value="${principal.user.email}" class="form-control" placeholder="Enter email" id="email">
 		</div>
+		<c:if test="${empty principal.user.loginType}">
 		<div class="form-group">
 			<label for="password">password :</label> <input type="password" class="form-control" placeholder="Enter password" id="password">
 		</div>
+		</c:if>
 	</form>
 		<button class="btn btn-primary" id="btn-update">회원정보 수정 완료</button>
 </div>

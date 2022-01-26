@@ -29,7 +29,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 넘버링 전략 : 프로젝트에서 연결된 DB의 넘버링 전략을 따른다는 말
 	private int id;// 오라클 시퀀스/ auto_increment
 	
-	@Column(nullable = false,length=20,unique = true) // null 허용x / 20자 내외 / 중복불가(unique=true)
+	@Column(nullable = false,length=200,unique = true) // null 허용x / 20자 내외 / 중복불가(unique=true)
 	private String username;
 	
 	@Column(length=200) //null 허용 x  / 100자 내외 : 이유 => 비밀번호 암호화 보관할거라서
@@ -42,6 +42,9 @@ public class User {
 	//db에는 roletype이라는게 없기때문에 따로 지정해줘야한다.
 	@Enumerated(EnumType.STRING)
 	private RoleType role; // Enum을 사용하는게 좋다. //admin/user/manager
+	
+	@Enumerated(EnumType.STRING)
+	private LoginType loginType;
 	
 	@CreationTimestamp // 시간이 자동 입력
 	private Timestamp createDate;

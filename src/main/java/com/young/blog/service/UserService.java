@@ -24,7 +24,22 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder encode;
 	
-
+	/**
+	 * 회원 찾기
+	 * @param username
+	 * @return user 회원 있으면 회원정보 넘김 /없으면 null
+	 */
+	@Transactional(readOnly = true)
+	public User findUser(String username) {
+		
+		//회원을 찾고 없으면 빈객체 리턴
+		User user = userRepository.findByUsername(username).orElseGet(()->{
+			return new User();
+		});
+		return user;
+	}
+	
+	
 	//회원가입 전체의 서비스가 하나의 트랜잭션으로 묶이게됨.
 	@Transactional
 	public int join(User user) {
@@ -59,9 +74,13 @@ public class UserService {
 		User persistance= userRepository.findById(user.getId()).orElseThrow(()->{
 			return new IllegalArgumentException("회원 찾기 실패");
 		});
-		String rawPassword=user.getPassword();
-		String encPassword= encode.encode(rawPassword);
-		persistance.setPassword(encPassword);
+		
+		//validation 체크
+		if(persistance.getLoginType()==null || persistance.getLoginType().equals("")) {
+			String rawPassword=user.getPassword();
+			String encPassword= encode.encode(rawPassword);
+			persistance.setPassword(encPassword);
+		}
 		persistance.setEmail(user.getEmail());
 		//회원수정 함수 종료시 서비스 종료 => 트랜잭션 종료 and commit
 		
