@@ -15,6 +15,7 @@ public class PrincipalDetail implements UserDetails{
 	 * 생성자와 getter setter 생성
 	 * @param user
 	 */
+	
 	public PrincipalDetail(User user) {
 		this.user=user;
 	}
@@ -57,6 +58,7 @@ public class PrincipalDetail implements UserDetails{
 
 	/**
 	 * 계정 만료 여부 리턴 
+	 * 예시
 	 */
 	@Override
 	public boolean isAccountNonExpired() {
