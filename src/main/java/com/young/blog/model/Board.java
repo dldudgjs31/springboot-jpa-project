@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -49,6 +52,8 @@ public class Board {
 	@OneToMany(mappedBy = "board",fetch = FetchType.EAGER) // 한개의 글은 여러개의 댓글을 가질수 있다. // mappedBy가 있으면 연관관계의 주인이 아니라는 의미
 	// db에 컬럼 만들지마라는 의미(fk 가 아니라는 의미) // mapped by의 이름은 해당 엔티티의 변수명을 기입
 	// one to many는 기본이 lazy 전략이지만 현재 프로젝트에는 댓글도 무조건 노출하기 때문에 eager 전략으로 변경함
+	@JsonIgnoreProperties({"board"}) // 해당 설정시 reply 내부의 board를 연관참조하는 것을 방지 할수 있다.
+	@OrderBy("id desc") // 출력시 출력되는 순서 정렬
 	private List<Reply> reply;
 	/*
 	 * ManyToONE : 기본적인 fetch (가져오는)전략 : FetchType.EAGER => 하나의 정보만 가져오면 되기때문 : 무조건 들고옴

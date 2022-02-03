@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.young.blog.model.Board;
+import com.young.blog.model.Reply;
 import com.young.blog.model.User;
 import com.young.blog.repository.BoardRepository;
+import com.young.blog.repository.ReplyRepository;
 
 
 @Service
@@ -19,6 +21,28 @@ public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
+
+	@Autowired
+	private ReplyRepository replyRepository;
+
+	/**
+	 * 댓글 쓰기
+	 * @param user
+	 * @param boardId
+	 * @param requestreply
+	 */
+	@Transactional
+	public void writeReply(User user, int boardId, Reply requestreply){
+		requestreply.setUser(user);
+		Board board=boardRepository.findById(boardId).orElseThrow(()->{
+			return new IllegalArgumentException("댓글 스기 실패 : id 찾을 수 없음");
+		});
+
+		requestreply.setBoard(board);
+		replyRepository.save(requestreply);
+	}
+
+
 	/**
 	 * 글쓰기
 	 * @param board
