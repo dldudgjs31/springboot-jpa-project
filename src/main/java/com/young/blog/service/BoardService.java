@@ -41,6 +41,11 @@ public class BoardService {
 		requestreply.setBoard(board);
 		replyRepository.save(requestreply);
 	}
+	
+	@Transactional
+	public void deleteReply(int replyId) {
+		replyRepository.deleteById(replyId);
+	}
 
 
 	/**

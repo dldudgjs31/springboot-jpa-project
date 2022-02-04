@@ -136,7 +136,27 @@ let index = {
 		
 		}); 
 		
+	},
+	replyDelete: function(boardId,replyId){
+		function getContextPath() {
+			var hostIndex = location.href.indexOf( location.host ) + location.host.length;
+			return location.href.substring( hostIndex, location.href.indexOf("/", hostIndex + 1) );
+		  };
+
+		$.ajax({
+			type:"DELETE", //요청 method 타입
+			url: getContextPath()+`/api/board/${boardId}/reply/${replyId}`, //요청보낼 url
+			dataType:"json" // 응답 데이터 타입 지정 ( default는 버퍼로 전송되기때문에 string을 전송됨), 만일 json이 넘어오면 자바스크립트 object로 변경해준다.
+		}).done(function(resp){
+			alert("댓글 삭제 완료");
+			location.href=getContextPath()+`/board/${boardId}`; // 성공시 반환 위치
+		}).fail(function(error){
+			alert(JSON.stringify(error));
+		
+		}); 
+		
 	}
+
 
 	
 }
